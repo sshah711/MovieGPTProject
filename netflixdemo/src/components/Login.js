@@ -1,17 +1,23 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { BG_URL, USER_AVATAR } from "../utils/constants";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [isSign, setIsSign] = useState(true);
   const [err, setErr] = useState(null);
   const email = useRef(null);
   const pass = useRef(null);
+  const name = useRef(null);
 
   const toggle = () => {
     setIsSign(!isSign);
@@ -31,11 +37,26 @@ const Login = () => {
         pass.current.value
       )
         .then((userCredential) => {
-          // Signed up
           const user = userCredential.user;
           navigate("/browse");
-
-          // ...
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: USER_AVATAR,
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+            })
+            .catch((error) => {
+              setErr(error.message);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -43,7 +64,6 @@ const Login = () => {
           setErr(errorMessage + "-" + errorCode);
         });
     } else {
-      // signin
       signInWithEmailAndPassword(auth, email.current.value, pass.current.value)
         .then((userCredential) => {
           // Signed in
@@ -80,6 +100,7 @@ const Login = () => {
         </h1>
         {!isSign && (
           <input
+            ref={name}
             placeholder="Full name"
             className="w-full my-4 p-4 bg-opacity-40 border border-white rounded-sm bg-black  "
           ></input>

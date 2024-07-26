@@ -6,8 +6,12 @@ import SecCon from "./SecCon";
 import usePopularMovies from "../hooks/usePopularMovies";
 import useTrending from "../hooks/useTrending";
 import useUpcomingMovie from "../hooks/useUpcomingMovie";
+import GPTSearch from "./GPTSearch";
+import { useSelector } from "react-redux";
 
 const Browse = () => {
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+
   useNowMovie();
   usePopularMovies();
   useTrending();
@@ -15,8 +19,14 @@ const Browse = () => {
   return (
     <div>
       <Header />
-      <MainCon />
-      <SecCon />
+      {showGptSearch ? (
+        <GPTSearch />
+      ) : (
+        <>
+          <MainCon />
+          <SecCon />
+        </>
+      )}
     </div>
   );
 };

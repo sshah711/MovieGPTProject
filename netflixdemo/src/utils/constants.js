@@ -11,9 +11,8 @@ export const API_OPTIONS = {
   method: "GET",
   headers: {
     accept: "application/json",
-    //   Authorization: "Bearer " + process.env.REACT_APP_TMDB_KEY,
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZDQ2YTM0ODdkZmU1ZjkyZmNhMjE2NTliMDFmOTQ4ZCIsIm5iZiI6MTcyMTY0MzA2NS40NDM1MjYsInN1YiI6IjY2OWUyZWM3NWQzYzJiY2U0ZjZlNTM2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HTAQL6SSq946HYbEhH90BwCjqtCLpciSa2W3wjVmmRo",
+    Authorization: "Bearer" + process.env.REACT_APP_TMDB_KEY,
+    //eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5ZDQ2YTM0ODdkZmU1ZjkyZmNhMjE2NTliMDFmOTQ4ZCIsIm5iZiI6MTcyMTY0MzA2NS40NDM1MjYsInN1YiI6IjY2OWUyZWM3NWQzYzJiY2U0ZjZlNTM2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HTAQL6SSq946HYbEhH90BwCjqtCLpciSa2W3wjVmmRo
   },
 };
 
@@ -25,3 +24,5 @@ export const SUPPORTED_LANGUAGES = [
   { identifier: "spanish", name: "Spanish" },
   { identifier: "gujarati", name: "Gujarati" },
 ];
+
+export const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
